@@ -37,7 +37,7 @@ fun CarManagerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        typography = AppTypography,
         shapes = Shapes,
         content = content
     )
