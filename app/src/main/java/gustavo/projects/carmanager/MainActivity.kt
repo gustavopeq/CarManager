@@ -18,13 +18,9 @@ import gustavo.projects.carmanager.theme.CarManagerTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        actionBar?.hide()
         setContent {
-            CarManagerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colorScheme.background){
-                    Home()
-                }
-            }
+            MainApp()
         }
     }
 }
