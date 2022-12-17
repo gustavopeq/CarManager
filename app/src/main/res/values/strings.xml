@@ -2,4 +2,7 @@
     <string name="app_name">CarManager</string>
 
     <string name="main_nav_home">Home</string>
+    <string name="main_nav_info">Vehicle Info</string>
+    <string name="main_nav_settings">Settings</string>
+
 </resources>

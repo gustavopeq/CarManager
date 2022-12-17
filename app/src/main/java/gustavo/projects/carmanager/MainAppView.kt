@@ -32,5 +32,7 @@ fun MainApp() {
 }
 
 private val mainNavBarItems = listOf<MainNavBarItem>(
-    MainNavBarItem.Home
+    MainNavBarItem.Home,
+    MainNavBarItem.Info,
+    MainNavBarItem.Settings
 )

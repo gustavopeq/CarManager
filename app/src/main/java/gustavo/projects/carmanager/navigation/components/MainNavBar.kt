@@ -21,7 +21,9 @@ fun MainNavBar(
             NavigationBarItem(
                 selected = false,
                 onClick = {
-                    navController.navigate(item.screen.route())
+                    navController.navigate(item.screen.route()) {
+                        launchSingleTop = true
+                    }
                 },
                 icon = {
                     Icon(
