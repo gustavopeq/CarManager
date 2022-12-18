@@ -5,4 +5,8 @@
     <string name="main_nav_info">Vehicle Info</string>
     <string name="main_nav_settings">Settings</string>
 
+<!--  Startup Screen  -->
+    <string name="startup_header">Welcome to Car Manager</string>
+    <string name="startup_button">Add vehicle</string>
+
 </resources>
