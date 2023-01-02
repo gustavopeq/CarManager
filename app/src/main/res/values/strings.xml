@@ -5,8 +5,15 @@
     <string name="main_nav_info">Vehicle Info</string>
     <string name="main_nav_settings">Settings</string>
 
-<!--  Startup Screen  -->
+    <!--  Startup Screen  -->
     <string name="startup_header">Welcome to Car Manager</string>
     <string name="startup_button">Add vehicle</string>
+
+    <!--  Add Vehicle Screen  -->
+    <string name="vehicle_name_label">Vehicle name</string>
+    <string name="vehicle_make_label">Vehicle make</string>
+    <string name="vehicle_model_label">Vehicle model</string>
+    <string name="vehicle_year_label">Year</string>
+    <string name="vehicle_license_plate_label">License plate</string>
 
 </resources>

@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import gustavo.projects.carmanager.addvehicle.AddVehicleScreen
 import gustavo.projects.carmanager.navigation.MainNavGraph
 import gustavo.projects.carmanager.navigation.components.MainNavBar
 import gustavo.projects.carmanager.navigation.components.MainNavBarItem
@@ -46,5 +47,6 @@ private val mainNavBarItems = listOf<MainNavBarItem>(
 )
 
 private val mainNavBarDisabledScreens = listOf(
-    StartupScreen.route()
+    StartupScreen.route(),
+    AddVehicleScreen.route()
 )
