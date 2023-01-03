@@ -38,6 +38,16 @@ class AddVehicleViewModel: ViewModel() {
                     vehicleLicensePlate = event.vehicleLicensePlate
                 )
             }
+            is UIEvent.VehicleOdometerChanged -> {
+                _vehicleState.value = _vehicleState.value.copy(
+                    vehicleOdometer = event.vehicleOdometer
+                )
+            }
+            is UIEvent.MileageUnitChanged -> {
+                _vehicleState.value = _vehicleState.value.copy(
+                    mileageUnit = event.mileageUnit
+                )
+            }
             is UIEvent.Submit -> {
                 validateInputs()
             }

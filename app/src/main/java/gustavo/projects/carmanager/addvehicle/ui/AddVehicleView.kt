@@ -1,16 +1,25 @@
 package gustavo.projects.carmanager.addvehicle.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import gustavo.projects.carmanager.R
 import gustavo.projects.carmanager.addvehicle.domain.UIEvent
+import gustavo.projects.carmanager.addvehicle.domain.VehicleState
+import gustavo.projects.carmanager.common.components.DropdownMenuButton
+import gustavo.projects.carmanager.common.util.SuffixTransformation
 
 @Composable
 fun AddVehicle() {
@@ -30,6 +42,9 @@ fun AddVehicle() {
 internal fun AddVehicle(
     viewModel: AddVehicleViewModel
 ) {
+
+    val vehicleState = viewModel.vehicleState.value
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,7 +67,7 @@ internal fun AddVehicle(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
-                value = viewModel.vehicleState.value.vehicleMake,
+                value = vehicleState.vehicleMake,
                 onValueChange = { viewModel.onEvent(UIEvent.VehicleMakeChanged(it)) },
                 modifier = Modifier.weight(1f),
                 label = { Text(text = stringResource(id = R.string.vehicle_make_label)) },
@@ -60,7 +75,7 @@ internal fun AddVehicle(
             )
 
             OutlinedTextField(
-                value = viewModel.vehicleState.value.vehicleModel,
+                value = vehicleState.vehicleModel,
                 onValueChange = { viewModel.onEvent(UIEvent.VehicleModelChanged(it)) },
                 modifier = Modifier.weight(1f),
                 label = { Text(text = stringResource(id = R.string.vehicle_model_label)) },
@@ -75,7 +90,7 @@ internal fun AddVehicle(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
-                value = viewModel.vehicleState.value.vehicleYear,
+                value = vehicleState.vehicleYear,
                 onValueChange = { viewModel.onEvent(UIEvent.VehicleYearChanged(it)) },
                 modifier = Modifier.weight(0.5f),
                 label = { Text(text = stringResource(id = R.string.vehicle_year_label)) },
@@ -84,11 +99,64 @@ internal fun AddVehicle(
             )
 
             OutlinedTextField(
-                value = viewModel.vehicleState.value.vehicleLicensePlate,
+                value = vehicleState.vehicleLicensePlate,
                 onValueChange = { viewModel.onEvent(UIEvent.VehicleLicensePlateChanged(it)) },
                 modifier = Modifier.weight(1f),
                 label = { Text(text = stringResource(id = R.string.vehicle_license_plate_label)) },
                 singleLine = true
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(id = R.string.additional_info_label),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 8.dp),
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        AdditionalInfoPanel(vehicleState, viewModel)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AdditionalInfoPanel(
+    vehicleState: VehicleState,
+    viewModel: AddVehicleViewModel
+) {
+    val listMileageUnit = listOf("km", "mi")
+    var selectedMileageUnitIndex by remember { mutableStateOf(0) }
+
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 8.dp),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        OutlinedTextField(
+            value = vehicleState.vehicleOdometer,
+            onValueChange = { viewModel.onEvent(UIEvent.VehicleOdometerChanged(it)) },
+            modifier = Modifier.weight(0.8f),
+            label = { Text(text = stringResource(id = R.string.odometer_label)) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            visualTransformation = SuffixTransformation(vehicleState.mileageUnit)
+        )
+
+        Box {
+            DropdownMenuButton(
+                options = listMileageUnit,
+                selectedIndex = selectedMileageUnitIndex,
+                onOptionSelected = {
+                    selectedMileageUnitIndex = it
+                    viewModel.onEvent(UIEvent.MileageUnitChanged(listMileageUnit[it]))
+                },
+                modifier = Modifier.width(80.dp)
             )
         }
     }

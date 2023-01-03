@@ -15,5 +15,7 @@
     <string name="vehicle_model_label">Vehicle model</string>
     <string name="vehicle_year_label">Year</string>
     <string name="vehicle_license_plate_label">License plate</string>
+    <string name="additional_info_label">Additional Info</string>
+    <string name="odometer_label">Odometer</string>
 
 </resources>
