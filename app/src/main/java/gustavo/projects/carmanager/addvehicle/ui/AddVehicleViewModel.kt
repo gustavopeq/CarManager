@@ -11,6 +11,11 @@ class AddVehicleViewModel: ViewModel() {
     private var _vehicleState = mutableStateOf(VehicleState())
     val vehicleState: State<VehicleState> = _vehicleState
 
+    val vehicleNameError = mutableStateOf(false)
+    val vehicleModelError = mutableStateOf(false)
+    val vehicleMakeError = mutableStateOf(false)
+    val vehicleOdometerError = mutableStateOf(false)
+
     fun onEvent(event: UIEvent) {
         when (event) {
             is UIEvent.VehicleNameChanged -> {
@@ -55,6 +60,17 @@ class AddVehicleViewModel: ViewModel() {
     }
 
     private fun validateInputs() {
+        vehicleNameError.value = vehicleState.value.vehicleName.isEmpty()
+        vehicleMakeError.value = vehicleState.value.vehicleMake.isEmpty()
+        vehicleModelError.value = vehicleState.value.vehicleModel.isEmpty()
+        vehicleOdometerError.value = vehicleState.value.vehicleOdometer.isEmpty()
 
+        if (vehicleState.value.vehicleName.isNotEmpty() &&
+                vehicleState.value.vehicleMake.isNotEmpty() &&
+                vehicleState.value.vehicleModel.isNotEmpty() &&
+                vehicleState.value.vehicleOdometer.isNotEmpty()
+        ) {
+            println("PRINT - Ready to go")
+        }
     }
 }

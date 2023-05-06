@@ -17,5 +17,9 @@
     <string name="vehicle_license_plate_label">License plate</string>
     <string name="additional_info_label">Additional Info</string>
     <string name="odometer_label">Odometer</string>
+    <string name="vehicle_name_error_label">Vehicle name cannot be empty</string>
+    <string name="vehicle_make_error_label">Missing vehicle make</string>
+    <string name="vehicle_model_error_label">Missing vehicle model</string>
+    <string name="vehicle_odometer_error_label">Missing vehicle odometer</string>
 
 </resources>

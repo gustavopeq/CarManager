@@ -30,6 +30,7 @@ import gustavo.projects.carmanager.R
 import gustavo.projects.carmanager.addvehicle.domain.UIEvent
 import gustavo.projects.carmanager.addvehicle.domain.VehicleState
 import gustavo.projects.carmanager.common.components.DropdownMenuButton
+import gustavo.projects.carmanager.common.components.PrimaryButton
 import gustavo.projects.carmanager.common.util.SuffixTransformation
 
 @Composable
@@ -45,6 +46,8 @@ internal fun AddVehicle(
 
     val vehicleState = viewModel.vehicleState.value
 
+
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,7 +60,13 @@ internal fun AddVehicle(
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
             label = { Text(text = stringResource(id = R.string.vehicle_name_label)) },
-            singleLine = true
+            singleLine = true,
+            isError = viewModel.vehicleNameError.value,
+            supportingText = {
+                if (viewModel.vehicleNameError.value) {
+                    Text(text = stringResource(id = R.string.vehicle_name_error_label))
+                }
+            }
         )
 
         Row(
@@ -71,7 +80,13 @@ internal fun AddVehicle(
                 onValueChange = { viewModel.onEvent(UIEvent.VehicleMakeChanged(it)) },
                 modifier = Modifier.weight(1f),
                 label = { Text(text = stringResource(id = R.string.vehicle_make_label)) },
-                singleLine = true
+                singleLine = true,
+                isError =  viewModel.vehicleMakeError.value,
+                supportingText = {
+                    if (viewModel.vehicleMakeError.value) {
+                        Text(text = stringResource(id = R.string.vehicle_make_error_label))
+                    }
+                }
             )
 
             OutlinedTextField(
@@ -79,7 +94,13 @@ internal fun AddVehicle(
                 onValueChange = { viewModel.onEvent(UIEvent.VehicleModelChanged(it)) },
                 modifier = Modifier.weight(1f),
                 label = { Text(text = stringResource(id = R.string.vehicle_model_label)) },
-                singleLine = true
+                singleLine = true,
+                isError =  viewModel.vehicleModelError.value,
+                supportingText = {
+                    if (viewModel.vehicleModelError.value) {
+                        Text(text = stringResource(id = R.string.vehicle_model_error_label))
+                    }
+                }
             )
         }
 
@@ -119,7 +140,23 @@ internal fun AddVehicle(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AdditionalInfoPanel(vehicleState, viewModel)
+        AdditionalInfoPanel(
+            vehicleState = vehicleState,
+            viewModel = viewModel
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        PrimaryButton(
+            onClick = {
+                viewModel.onEvent(UIEvent.Submit)
+            },
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(horizontal = 8.dp)
+        ) {
+            Text(text = "Submit")
+        }
     }
 }
 
@@ -145,7 +182,13 @@ fun AdditionalInfoPanel(
             label = { Text(text = stringResource(id = R.string.odometer_label)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            visualTransformation = SuffixTransformation(vehicleState.mileageUnit)
+            visualTransformation = SuffixTransformation(vehicleState.mileageUnit),
+            isError =  viewModel.vehicleOdometerError.value,
+            supportingText = {
+                if (viewModel.vehicleOdometerError.value) {
+                    Text(text = stringResource(id = R.string.vehicle_odometer_error_label))
+                }
+            }
         )
 
         Box {
