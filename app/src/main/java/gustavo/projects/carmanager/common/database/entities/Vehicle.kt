@@ -8,7 +8,7 @@ data class Vehicle(
     @PrimaryKey val name: String,
     val make: String,
     val model: String,
-    val odometer: Int,
+    val odometer: Long,
     val year: Int? = null,
     val licensePlate: String? = null
 )

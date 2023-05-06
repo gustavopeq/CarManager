@@ -73,19 +73,19 @@ class AddVehicleViewModel @Inject constructor(
         vehicleNameError.value = vehicleState.value.vehicleName.isEmpty()
         vehicleMakeError.value = vehicleState.value.vehicleMake.isEmpty()
         vehicleModelError.value = vehicleState.value.vehicleModel.isEmpty()
-        vehicleOdometerError.value = vehicleState.value.vehicleOdometer.isEmpty()
+        //vehicleOdometerError.value = vehicleState.value.vehicleOdometer != null
 
         if (vehicleState.value.vehicleName.isNotEmpty() &&
                 vehicleState.value.vehicleMake.isNotEmpty() &&
-                vehicleState.value.vehicleModel.isNotEmpty() &&
-                vehicleState.value.vehicleOdometer.isNotEmpty()
+                vehicleState.value.vehicleModel.isNotEmpty()
+                //vehicleState.value.vehicleOdometer.isNotEmpty()
         ) {
             val newVehicle = Vehicle(
                 name = vehicleState.value.vehicleName,
                 make = vehicleState.value.vehicleMake,
                 model = vehicleState.value.vehicleModel,
-                odometer = vehicleState.value.vehicleOdometer.toInt(),
-                year = vehicleState.value.vehicleYear.toInt(),
+                odometer = vehicleState.value.vehicleOdometer,
+                year = vehicleState.value.vehicleYear,
                 licensePlate = vehicleState.value.vehicleLicensePlate
             )
             viewModelScope.launch(context = Dispatchers.IO) {

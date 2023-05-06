@@ -111,8 +111,8 @@ internal fun AddVehicle(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
-                value = vehicleState.vehicleYear,
-                onValueChange = { viewModel.onEvent(UIEvent.VehicleYearChanged(it)) },
+                value = vehicleState.vehicleYear?.toString() ?: "",
+                onValueChange = { viewModel.onEvent(UIEvent.VehicleYearChanged(it.toInt())) },
                 modifier = Modifier.weight(0.5f),
                 label = { Text(text = stringResource(id = R.string.vehicle_year_label)) },
                 singleLine = true,
@@ -176,8 +176,15 @@ fun AdditionalInfoPanel(
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
-            value = vehicleState.vehicleOdometer,
-            onValueChange = { viewModel.onEvent(UIEvent.VehicleOdometerChanged(it)) },
+            value = vehicleState.vehicleOdometer.toString(),
+            onValueChange = { newValue ->
+                if (newValue.isEmpty()) {
+                    viewModel.onEvent(UIEvent.VehicleOdometerChanged(0))
+
+                } else {
+                    viewModel.onEvent(UIEvent.VehicleOdometerChanged(newValue.toLong()))
+                }
+            },
             modifier = Modifier.weight(0.8f),
             label = { Text(text = stringResource(id = R.string.odometer_label)) },
             singleLine = true,
