@@ -21,10 +21,20 @@ class AddVehicleViewModel @Inject constructor(
     private var _vehicleState = mutableStateOf(VehicleState())
     val vehicleState: State<VehicleState> = _vehicleState
 
-    val vehicleNameError = mutableStateOf(false)
-    val vehicleModelError = mutableStateOf(false)
-    val vehicleMakeError = mutableStateOf(false)
-    val vehicleOdometerError = mutableStateOf(false)
+    private var _vehicleNameError = mutableStateOf(false)
+    val vehicleNameError: State<Boolean> = _vehicleNameError
+
+    private var _vehicleMakeError = mutableStateOf(false)
+    val vehicleMakeError: State<Boolean> = _vehicleMakeError
+
+    private var _vehicleModelError = mutableStateOf(false)
+    val vehicleModelError: State<Boolean> = _vehicleModelError
+
+    private var _vehicleOdometerError = mutableStateOf(false)
+    val vehicleOdometerError: State<Boolean> = _vehicleOdometerError
+
+    private var _navigateToHome = mutableStateOf(false)
+    val navigateToHome: State<Boolean> = _navigateToHome
 
     fun onEvent(event: UIEvent) {
         when (event) {
@@ -70,15 +80,13 @@ class AddVehicleViewModel @Inject constructor(
     }
 
     private fun validateInputs() {
-        vehicleNameError.value = vehicleState.value.vehicleName.isEmpty()
-        vehicleMakeError.value = vehicleState.value.vehicleMake.isEmpty()
-        vehicleModelError.value = vehicleState.value.vehicleModel.isEmpty()
-        //vehicleOdometerError.value = vehicleState.value.vehicleOdometer != null
+        _vehicleNameError.value = vehicleState.value.vehicleName.isEmpty()
+        _vehicleMakeError.value = vehicleState.value.vehicleMake.isEmpty()
+        _vehicleModelError.value = vehicleState.value.vehicleModel.isEmpty()
 
         if (vehicleState.value.vehicleName.isNotEmpty() &&
                 vehicleState.value.vehicleMake.isNotEmpty() &&
                 vehicleState.value.vehicleModel.isNotEmpty()
-                //vehicleState.value.vehicleOdometer.isNotEmpty()
         ) {
             val newVehicle = Vehicle(
                 name = vehicleState.value.vehicleName,
@@ -90,6 +98,7 @@ class AddVehicleViewModel @Inject constructor(
             )
             viewModelScope.launch(context = Dispatchers.IO) {
                 vehicleRepository.addVehicleItem(newVehicle)
+                _navigateToHome.value = true
             }
         }
     }

@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,19 +35,30 @@ import gustavo.projects.carmanager.common.components.PrimaryButton
 import gustavo.projects.carmanager.common.util.SuffixTransformation
 
 @Composable
-fun AddVehicle() {
-    AddVehicle(viewModel = hiltViewModel())
+fun AddVehicle(
+    goToHome: ()-> Unit
+) {
+    AddVehicle(
+        viewModel = hiltViewModel(),
+        goToHome = goToHome
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AddVehicle(
-    viewModel: AddVehicleViewModel
+    viewModel: AddVehicleViewModel,
+    goToHome: ()-> Unit
 ) {
 
     val vehicleState = viewModel.vehicleState.value
+    val navigateToHome = viewModel.navigateToHome.value
 
-
+    LaunchedEffect(navigateToHome) {
+        if (navigateToHome) {
+            goToHome()
+        }
+    }
 
     Column(
         verticalArrangement = Arrangement.Center,
