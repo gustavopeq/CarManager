@@ -3,10 +3,20 @@ package gustavo.projects.carmanager.addvehicle.ui
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import gustavo.projects.carmanager.addvehicle.domain.UIEvent
 import gustavo.projects.carmanager.addvehicle.domain.VehicleState
+import gustavo.projects.carmanager.common.database.entities.Vehicle
+import gustavo.projects.carmanager.common.database.repository.VehicleRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddVehicleViewModel: ViewModel() {
+@HiltViewModel
+class AddVehicleViewModel @Inject constructor(
+    private val vehicleRepository: VehicleRepository
+): ViewModel() {
 
     private var _vehicleState = mutableStateOf(VehicleState())
     val vehicleState: State<VehicleState> = _vehicleState
@@ -70,7 +80,17 @@ class AddVehicleViewModel: ViewModel() {
                 vehicleState.value.vehicleModel.isNotEmpty() &&
                 vehicleState.value.vehicleOdometer.isNotEmpty()
         ) {
-            println("PRINT - Ready to go")
+            val newVehicle = Vehicle(
+                name = vehicleState.value.vehicleName,
+                make = vehicleState.value.vehicleMake,
+                model = vehicleState.value.vehicleModel,
+                odometer = vehicleState.value.vehicleOdometer.toInt(),
+                year = vehicleState.value.vehicleYear.toInt(),
+                licensePlate = vehicleState.value.vehicleLicensePlate
+            )
+            viewModelScope.launch(context = Dispatchers.IO) {
+                vehicleRepository.addVehicleItem(newVehicle)
+            }
         }
     }
 }
